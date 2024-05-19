@@ -1,42 +1,90 @@
-# Stock-Market-Analysis-And-Forecasting-Using-Deep-Learning
 
-<img src="https://github.com/mohdumair8896/Stock-Market-Analysis-And-Forecasting/blob/master/Images/gg.jpg" width="550" height="350"/>
+# Stock Market Analysis And Price Prediction
+The S&P BSE SENSEX is a free-float market-weighted stock market index of 30 well-established and financially sound companies listed on Bombay Stock Exchange. In this project, I shall analyze historical S&P BSE Sensex data, particularly the Open, High, Low and Close over the past 10 years. I shall then calculate various technical indicators used in market analysis to forecast BSE market performance, using the famous XGBoost regressor. Then, I shall do the same using LSTMs, compare the outcomes and finalize my model.
 
-This is a project of Stock Market Analysis And Forecasting Using Deep Learning(pytorch,gru).
+## Overview
 
-The task of stock prediction has always been a challenging problem for statistics experts and nance. The main reason behind this prediction is buying stocks that are likely to increase in price and then selling stocks that are probably to fall. Generally, there are two ways for stock market prediction. Fundamental analysis is one of them and relies on a company's technique and fundamental information like market position, expenses and annual growth rates. The second one is the technical analysis method, which concentrates on previous stock prices and values.
+This project has 5 steps:
 
-In this project, It analyze the data and then forecast the stock market.
+1. Data Preprocessing </br>
+This dataset is clean and requires no preprocessing.
+```
+df = pd.read_csv(Location of dataset, index_col=False)
+dfp=df
+df['Date']=df['Date'].astype('datetime64')
+df.head()
+```
 
-DATASET
-------
-Google | Microsoft | IBM | Amazon
+2. Data Visualization </br>
+Candlestick charts are the language of stocks. Also, since we will be using time series forecasting, it only makes sense to decompose the data and evaluate trends and seasonality. The code can be found in dataviz.py.
 
-Analysis
-------
-<img src="https://github.com/mohdumair8896/Stock-Market-Analysis-And-Forecasting/blob/master/Images/download12.jpg" width="550" height="350"/>
+3. Plotting Technical Indicators </br>
+Technical indicators are the stock trader's toolbox. I start off by plotting exponential and simple moving averages over different time periods. Then, I plot the RSI, which is an indicator of whether the stocks of the index are oversold or overbought. Finally, I plot the MACD to observe the market momentum. The code can be found in techind.py.
 
-As we can see here Microsoft's "High" value is very slowly increasing straight line. IBM's "High" value and Amazon's "High" value started from the approx same stage, even Amazon's "High" value was a bit lower but after 2012 Amazon's "High" value started to exponentially increase and slight drop for IBM's "High" value. Since 2016 there is a high fight going between Google's "High" value and Amazon's "High" value at 2018 Amazon's "High" value also beat Google's "High" value.
+4. Using XGBoost to predict closing prices </br>
+Not all indicators are equally important. Understanding the weightage alloted to each one allows us to make optimal decisions. We shall use GridSearch to find the parameters with the best validation score and use those in our model. The code can be found in xgb.py.
 
-<img src="https://github.com/mohdumair8896/Stock-Market-Analysis-And-Forecasting/blob/master/Images/download13.jpg" width="550" height="350"/>
+5. Using LSTMs for time series forecasting </br>
+Our model doesn't do a very good job of predictions. Also, it relies on calculation of a lot of parameters and is computationally expensive. A better option would be to use LSTMs for predicting the future closing prices. The code can be found in lst.py.
 
-In Microsoft data, we can see in 2009 "High" value was under mean for a long time, so we can say there was some loss.
+## Data
 
-<img src="https://github.com/mohdumair8896/Stock-Market-Analysis-And-Forecasting/blob/master/Images/download14.jpg" width="550" height="350"/>
+BSE allows you to download historical data (Open, High, Low, Close) of the indices. You can find the link to do so here: https://www.bseindia.com/indices/IndexArchiveData.html
 
-In Google data,there is a very slow increasing trend until 2012, but after 2012 there was an exponential high trend. And very high seasonality.
+## Tools Used
 
-Forecasting 
-------
-**Time series forecasting** uses information regarding historical values and associated patterns to predict future activity. Most often, this relates to trend analysis, cyclical fluctuation analysis, and issues of seasonality. As with all forecasting methods, success is not guaranteed.
+* Python 3.6
+* Numpy
+* Pandas
+* Xgboost
+* Sklearn
+* Plotly
+* Stldecompose
 
-**GRU Model:**
+```
+#importing relevant libraries
+import os
+import numpy as np
+import pandas as pd
+import xgboost as xgb
+import matplotlib.pyplot as plt
+from xgboost import plot_importance, plot_tree
+from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split, GridSearchCV
+import types
+from botocore.client import Config
+import ibm_boto3
 
-Gated recurrent unit is essentially a simplified LSTM. It has the exact same role in the network. The main difference is in the number of gates and weights — GRU is somewhat simpler. It has 2 gates. Since it does not have an output gate, there is no control over the memory content. The update gate controls the information flow from the previous activation, and the addition of new information as well, while the reset gate is inserted into the candidate activation.
+# Plotting    
+!pip install plotly==4.6.0
+import plotly as py
+import plotly.io as pio
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 
-Results
------
-<img src="https://github.com/mohdumair8896/Stock-Market-Analysis-And-Forecasting/blob/master/Images/ibm.jpg" width="550" height="350"/>
+# Time series decomposition
+!pip install stldecompose
+from stldecompose import decompose
+```
+## Results
 
-<img src="https://github.com/mohdumair8896/Stock-Market-Analysis-And-Forecasting/blob/master/Images/ibm3.jpg" width="550" height="350"/>
------
+You can find the presentation on [YouTube](https://youtu.be/1T0iXG8ISNc) </br>
+If you wish to view the interactive plots, check out this project on [IBM Watson Studio](https://eu-gb.dataplatform.cloud.ibm.com/analytics/notebooks/v2/d9a1b2ae-b1bb-410e-aad9-14e38d2b3475/view?access_token=33f0de192be5b1c9dcd525d9e5a38270bfa27d42186fd4740dbcb905d91a1564)
+
+1. Decomposition : Barring recent stock market changes because of the CoVID-19 pandemic, we observe that Sensex seems to have a strong seasonality and limited noice/residulaity. In simpler words, this means that stocks markets behave in a predicatable manner over the long term.
+
+![Decomposition](https://github.com/Akshat2430/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/Decomposition.png)
+
+2. Feature Importance: Of the listed technical indicators, 9 day Exponential Moving Average and Relative Strength Index are the most important ones.
+
+![Feature Importance](https://github.com/Akshat2430/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/Feature%20Importance.png)
+
+3. LSTM Predictions: The LSTM model does a really good job of predicting future market trends, due to the high seasonality and predictable noise of Sensex.
+
+![LSTM Predictions](https://github.com/Akshat2430/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/LSTM.png)
+
+## Author
+
+Akshat Kharbanda is a BITS Pilani, KK Birla Goa Campus Student majoring in Electronics and Communication Engineering. Feel free to connect on [LinkedIn](https://www.linkedin.com/in/akshat-kharbanda-b91986148/)!
