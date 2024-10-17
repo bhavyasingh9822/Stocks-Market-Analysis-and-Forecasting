@@ -72,13 +72,13 @@ from stldecompose import decompose
 
 1. Decomposition : Barring recent stock market changes because of the CoVID-19 pandemic, we observe that Sensex seems to have a strong seasonality and limited noice/residulaity. In simpler words, this means that stocks markets behave in a predicatable manner over the long term.
 
-![Decomposition](https://github.com/Akshat2430/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/Decomposition.png)
+![Decomposition](https://github.com/bhavyasingh9822/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/Decomposition.png)
 
 2. Feature Importance: Of the listed technical indicators, 9 day Exponential Moving Average and Relative Strength Index are the most important ones.
 
-![Feature Importance](https://github.com/Akshat2430/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/Feature%20Importance.png)
+![Feature Importance](https://github.com/bhavyasingh9822/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/Feature%20Importance.png)
 
 3. LSTM Predictions: The LSTM model does a really good job of predicting future market trends, due to the high seasonality and predictable noise of Sensex.
 
-![LSTM Predictions](https://github.com/Akshat2430/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/LSTM.png)
+![LSTM Predictions](https://github.com/bhavyasingh9822/Stock-Market-Analysis-And-Price-Prediction/blob/main/images/LSTM.png)
 
